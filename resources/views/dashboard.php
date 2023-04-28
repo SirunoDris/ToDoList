@@ -1,9 +1,9 @@
-<?php 
+<?php
     // initialize errors variable
 	$errors = "";
 
 	// connect to database
-	$db = mysqli_connect("localhost", "root", "", "todo");
+	$db = mysqli_connect("localhost", "root", "linuxlinux", "todo");
 
 	// si no se ha rellenado el campo sale un error
 	if (isset($_POST['submit'])) {
@@ -13,15 +13,15 @@
 			$tarea = $_POST['tarea'];
 			$sql = "INSERT INTO tareas (tarea) VALUES ('$tarea')";
 			mysqli_query($db, $sql);
-			header('location: index.php');
+			header('location: dashboard');
 		}
-	}	
+	}
 	if (isset($_GET['del_tarea'])) {
 		$id = $_GET['del_tarea'];
-	
+
 		mysqli_query($db, "DELETE FROM tareas WHERE id=".$id);
-		header('location: index.php');
-	}		
+		header('location: dashboard');
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +39,7 @@
 						<h2 class="text-center">ToDo List</h2>
 					</div>
 					<div class="card-body">
-						<form method="post" action="index.php" class="input_form">
+						<form method="post" class="input_form">
 							<div class="form-group">
 								<input type="text" name="tarea" class="form-control" placeholder="Añade una tarea">
 							</div>
@@ -56,7 +56,7 @@
 									<th>Tarea</th>
 									<th>Accion</th>
 								</tr>
-								<?php 
+								<?php
 									// muestra las tareas
 									$tareas = mysqli_query($db, "SELECT * FROM tareas");
 
@@ -64,7 +64,7 @@
 										<tr>
 											<td> <?php echo $i; ?> </td>
 											<td class="tarea"> <?php echo $row['tarea']; ?> </td>
-											<td class="delete"> 
+											<td class="delete">
 											<a href="index.php?del_tarea=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Eliminar</a>
 											</td>
 										</tr>
@@ -80,7 +80,7 @@
 			return confirm("¿Estás seguro de que quieres eliminar esta tarea?");
 		}
 	</script>
-	
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
