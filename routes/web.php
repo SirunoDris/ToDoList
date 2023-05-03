@@ -18,7 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+/*Route::get('/dashboard', function () {
     return view('dashboard');
-});
+});*/
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::post('/dashboard', [DashboardController::class, 'store'])->name('dashboard.store');

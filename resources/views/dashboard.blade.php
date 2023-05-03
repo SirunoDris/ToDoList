@@ -39,7 +39,8 @@
 						<h2 class="text-center">ToDo List</h2>
 					</div>
 					<div class="card-body">
-						<form method="post" class="input_form">
+                        <form method="post" class="input_form" action="{{ route('dashboard.store') }}">
+                            @csrf
 							<div class="form-group">
 								<input type="text" name="tarea" class="form-control" placeholder="Añade una tarea">
 							</div>
