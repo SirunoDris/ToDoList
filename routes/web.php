@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::post('/dashboard', [DashboardController::class, 'store'])->name('dashboard.store');
+Route::delete('/dashboard', [DashboardController::class, 'destroy'])->name('dashboard.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

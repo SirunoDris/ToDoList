@@ -64,12 +64,17 @@
 
 									$i = 1; while ($row = mysqli_fetch_array($tareas)) { ?>
 										<tr>
-											<td> <?php echo $i; ?> </td>
-											<td class="tarea"> <?php echo $row['tarea']; ?> </td>
-											<td class="delete">
-											<a href="index.php?del_tarea=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Eliminar</a>
-											</td>
-										</tr>
+                                            <td> <?php echo $i; ?> </td>
+                                            <td class="tarea"> <?php echo $row['tarea']; ?> </td>
+                                            <td class="delete">
+                                                <form action="{{ route('dashboard.destroy', $row['id']) }}" method="POST" style="display: inline-block;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="id" value="{{ $row['id'] }}">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Eliminar</button>
+                                                </form>
+                                            </td>
+                                        </tr>
 								<?php $i++; }?>
 						</table>
 					</div>

@@ -25,15 +25,15 @@ class DashboardController extends Controller
             'tarea' => $request->input('tarea')
         ]);
 
-        return redirect()->route('dashboard.index')
-            ->with('success', 'Tarea añadida correctamente.');
+        return redirect('/dashboard');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->input('id');
         DB::table('tareas')->where('id', $id)->delete();
 
-        return redirect()->route('dashboard.index')
-            ->with('success', 'Tarea eliminada correctamente.');
+        return redirect('/dashboard');
     }
+
 }
