@@ -25,8 +25,8 @@ class DashboardController extends Controller
             'tarea' => $request->input('tarea')
         ]);
 
-        return redirect()->route('dashboard.index')
-            ->with('success', 'Tarea añadida correctamente.');
+        return redirect('/dashboard');
+            
     }
 
     public function destroy($id)
