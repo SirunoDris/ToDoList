@@ -1,36 +1,37 @@
-
 <?php
-    // initialize errors variable
-	$errors = "";
+// initialize errors variable
+$errors = "";
 
-	// connect to database
-	$db = mysqli_connect("localhost", "root", "linuxlinux", "todo");
+// connect to database
+$db = mysqli_connect("localhost", "root", "linuxlinux", "todo");
 
-	// si no se ha rellenado el campo sale un error
-	if (isset($_POST['submit'])) {
-		if (empty($_POST['tarea'])) {
-			$errors = "Tienes que añadir una tarea";
-		} else {
-			$tarea = $_POST['tarea'];
-			$sql = "INSERT INTO tareas (tarea) VALUES ('$tarea')";
-			mysqli_query($db, $sql);
-			header('location: dashboard');
-		}
-	}
-	if (isset($_GET['del_tarea'])) {
-		$id = $_GET['del_tarea'];
-
-		mysqli_query($db, "DELETE FROM tareas WHERE id=".$id);
+// si no se ha rellenado el campo sale un error
+if (isset($_POST['submit'])) {
+	if (empty($_POST['tarea'])) {
+		$errors = "Tienes que añadir una tarea";
+	} else {
+		$tarea = $_POST['tarea'];
+		$sql = "INSERT INTO tareas (tarea) VALUES ('$tarea')";
+		mysqli_query($db, $sql);
 		header('location: dashboard');
 	}
+}
+if (isset($_GET['del_tarea'])) {
+	$id = $_GET['del_tarea'];
+
+	mysqli_query($db, "DELETE FROM tareas WHERE id=" . $id);
+	header('location: dashboard');
+}
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>ToDo List</title>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+
 <body>
 	<div class="container mt-5">
 		<div class="row">
@@ -40,8 +41,8 @@
 						<h2 class="text-center">ToDo List</h2>
 					</div>
 					<div class="card-body">
-                        <form method="post" class="input_form" action="{{ route('dashboard.store') }}">
-                            @csrf
+						<form method="post" class="input_form" action="{{ route('dashboard.store') }}">
+							@csrf
 							<div class="form-group">
 								<input type="text" name="tarea" class="form-control" placeholder="Añade una tarea">
 							</div>
@@ -53,29 +54,31 @@
 							</div>
 						</form>
 						<table class="table table-striped">
-								<tr>
-									<th>Num</th>
-									<th>Tarea</th>
-									<th>Accion</th>
-								</tr>
-								<?php
-									// muestra las tareas
-									$tareas = mysqli_query($db, "SELECT * FROM tareas");
+							<tr>
+								<th>Num</th>
+								<th>Tarea</th>
+								<th>Accion</th>
+							</tr>
+							<?php
+							// muestra las tareas
+							$tareas = mysqli_query($db, "SELECT * FROM tareas");
 
-									$i = 1; while ($row = mysqli_fetch_array($tareas)) { ?>
-										<tr>
-                                            <td> <?php echo $i; ?> </td>
-                                            <td class="tarea"> <?php echo $row['tarea']; ?> </td>
-                                            <td class="delete">
-                                                <form action="{{ route('dashboard.destroy', $row['id']) }}" method="POST" style="display: inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value="{{ $row['id'] }}">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Eliminar</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-								<?php $i++; }?>
+							$i = 1;
+							while ($row = mysqli_fetch_array($tareas)) { ?>
+								<tr>
+									<td> <?php echo $i; ?> </td>
+									<td class="tarea"> <?php echo $row['tarea']; ?> </td>
+									<td class="delete">
+										<form action="{{ route('dashboard.destroy', $row['id']) }}" method="POST" style="display: inline-block;">
+											@csrf
+											@method('DELETE')
+											<input type="hidden" name="id" value="{{ $row['id'] }}">
+											<button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Eliminar</button>
+										</form>
+									</td>
+								</tr>
+							<?php $i++;
+							} ?>
 						</table>
 					</div>
 				</div>
@@ -94,4 +97,5 @@
 
 
 </body>
+
 </html>
